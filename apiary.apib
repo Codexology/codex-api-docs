@@ -1,9 +1,45 @@
 FORMAT: 1A
-HOST: http://polls.apiblueprint.org/
+HOST: https://sandbox.codex.link/api/v1/
 
-# codex-api
+# Codex RESTful API
+The Codex API is an extension to the Codex platform to get data from an organization's backend.
+It includes collections per enabled module in Codex.
+You can get a list of enabled modules using the /modules endpoint
 
-Polls is a simple API allowing consumers to view polls and vote in them.
+
+## Modules Collection [/modules]
+### Get all modules [GET]
++ Response 200 (application/json)
+        
+        [
+            { 
+                "internalName":"members"
+            }
+        ]
+
+
+
+## Authenticatie [/authenticate]
+
+
+### Genereer Authenticatie Token [POST]
+
+Met deze call kan je een JWT (Javascript Web Token) genereren om de rest van de API te gebruiken.
+Dit is dus identiek aan inloggen op een traditionele web applicatie.
+
+    + Request
+        + username (string) - Gebruikersnaam, doorgaans je e-mailadres
+        + password (string) - Je wachtwoord
+    
++ Response 200 (application/json)
+
+        { 
+            "token" : "12345"
+        }
+
+
+
+
 
 ## Questions Collection [/questions]
 
