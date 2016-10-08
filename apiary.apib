@@ -1,10 +1,23 @@
 FORMAT: 1A
-HOST: https://sandbox.codex.link/api/v1/
+HOST: https://sandbox.codex.link/apid d
 
 # Codex RESTful API
 The Codex API is an extension to the Codex platform to get data from an organization's backend.
 It includes collections per enabled module in Codex.
 You can get a list of enabled modules using the /modules endpoint
+
+
+## General Collection [/]
+
+
+### Get API status [GET]
++ Response 200 (application/json)
+        
+        [
+            { 
+                "API INFO HERE":true
+            }
+        ]
 
 
 ## Modules Collection [/modules]
@@ -27,7 +40,7 @@ You can get a list of enabled modules using the /modules endpoint
 Met deze call kan je een JWT (Javascript Web Token) genereren om de rest van de API te gebruiken.
 Dit is dus identiek aan inloggen op een traditionele web applicatie.
 
-    + Request
++ Request
         + username (string) - Gebruikersnaam, doorgaans je e-mailadres
         + password (string) - Je wachtwoord
     
@@ -114,3 +127,67 @@ form of choices.
                     }
                 ]
             }
+            
+
+## members [/members]
+### all [GET]
+
+Description here
+
++ Response 200 (application/json)
+
+### get [GET]
+
+Description here
+
++ Response 200 (application/json)
+
+### ids [GET]
+
+Description here
+
++ Response 200 (application/json)
+
+### query [GET]
+
+Description here
+
++ Response 200 (application/json)
+
+### filter [GET]
+
+Description here
+
++ Response 200 (application/json)
+
+### filterbatch [GET]
+
+Description here
+
++ Response 200 (application/json)
+
+### birthdays [GET]
+
+Description here
+
++ Response 200 (application/json)
+
+### fields [GET]
+
+Description here
+
++ Response 200 (application/json)
+
+### requestUpdateToken [GET]
+
+Description here
+
++ Response 200 (application/json)
+
+### traits [GET]
+
+Description here
+
++ Response 200 (application/json)
+
+## groups [/groups]
