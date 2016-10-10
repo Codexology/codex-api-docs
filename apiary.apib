@@ -1,27 +1,66 @@
 FORMAT: 1A
-HOST: https://sandbox.codex.link/apid d
+HOST: https://sandbox.codex.link/api
 
 # Codex RESTful API
 The Codex API is an extension to the Codex platform to get data from an organization's backend.
 It includes collections per enabled module in Codex.
 You can get a list of enabled modules using the /modules endpoint
 
+The host in this documentation is `sandbox` , but you can replace that with your own organisation for all endpoints.
+
+## Authentication [/authenticate]
+
+We're using Javascript Web Tokens to authenticate clients. More information about JWT standard can be found on [http://jwt.io](http://jwt.io)
+
+### How it works
+#### token generation
+You need to generate a token for every client (= application) that uses the API. Note that authenticating specific users is not supported: this needs to be done in your own implementation.
+#### All subsequent calls that require auth
+As Soon as you have a token, you can add it as an HTTP header to all subsequent requests, using the following structure:
+
+        Authorization: Bearer <token>
+
+### Generate Authentication Token [POST]
+
+Using this call you can generate a JWT token. The credentials required can be obtained using the **API Manager** module in your Codex system. If you are not in the board of your organisation, you can contact them to generate credentials for you.
+
++ Request
+        + email (string) - An email serves as the username
+        + password (string) - the password
+    
++ Response 200 (application/json)
+
+        { 
+            "token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ"
+        }
+
+Note: this is an example token.
+
+
 
 ## General Collection [/]
 
 
 ### Get API status [GET]
+
+Get the current API version metadata and any instructions. This call is available without authentication.
+
 + Response 200 (application/json)
         
         [
-            { 
-                "API INFO HERE":true
+            {
+                "name":"Codex API",
+                "version":1,
+                "nickname":"Apricot",
+                "documentation_link":"http:\/\/codex.management\/api.php"
             }
         ]
 
 
 ## Modules Collection [/modules]
 ### Get all modules [GET]
+
+Get a list of all enabled modules in this Codex including their metadata.
 + Response 200 (application/json)
         
         [
@@ -31,118 +70,20 @@ You can get a list of enabled modules using the /modules endpoint
         ]
 
 
-
-## Authenticatie [/authenticate]
-
-
-### Genereer Authenticatie Token [POST]
-
-Met deze call kan je een JWT (Javascript Web Token) genereren om de rest van de API te gebruiken.
-Dit is dus identiek aan inloggen op een traditionele web applicatie.
-
-+ Request
-        + username (string) - Gebruikersnaam, doorgaans je e-mailadres
-        + password (string) - Je wachtwoord
     
-+ Response 200 (application/json)
-
-        { 
-            "token" : "12345"
-        }
-
-
-
-
-
-## Questions Collection [/questions]
-
-### List All Questions [GET]
-
-+ Response 200 (application/json)
-
-        [
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 2048
-                    }, {
-                        "choice": "Python",
-                        "votes": 1024
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 512
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 256
-                    }
-                ]
-            }
-        ]
-
-### Create a New Question [POST]
-
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
-
-+ Request (application/json)
-
-        {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
-        }
-
-+ Response 201 (application/json)
-
-    + Headers
-
-            Location: /questions/2
-
-    + Body
-
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
-                    }
-                ]
-            }
-            
-
-## members [/members]
-### all [GET]
-
-Description here
-
-+ Response 200 (application/json)
-
+## Get all members [/members/all]
 ### get [GET]
 
-Description here
+Get all members currently in the system. We suggest you cache the response so you don't have to use it that often - this is a performance-heavy call
 
 + Response 200 (application/json)
 
-### ids [GET]
+## Get members based on a list of Ids [/members/ids/{ids}]
++ Parameters
+
+    + ids: 1,2,3,4 (required) - A comma-separated list of Codex Ids
+
+### Get list based on Ids [GET]
 
 Description here
 
@@ -156,37 +97,37 @@ Description here
 
 ### filter [GET]
 
-Description here
+Get a list of members based on a single filter
 
 + Response 200 (application/json)
 
 ### filterbatch [GET]
 
-Description here
+Get a list of members based on a set of filters in a single query
 
 + Response 200 (application/json)
 
 ### birthdays [GET]
 
-Description here
+Get birthdays in the coming X days
 
 + Response 200 (application/json)
 
 ### fields [GET]
 
-Description here
+Get all fields that make up a member
 
 + Response 200 (application/json)
 
 ### requestUpdateToken [GET]
 
-Description here
+Request a token with which a member can update their data directly in Codex
 
 + Response 200 (application/json)
 
 ### traits [GET]
 
-Description here
+Get all traits of a specific member
 
 + Response 200 (application/json)
 
